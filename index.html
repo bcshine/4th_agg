@@ -13,286 +13,215 @@
     
     <!-- Q&A 섹션 전용 스타일 -->
     <style>
-        /* Q&A 섹션 전용 스타일 (초등학생용 주석) */
+        /* Q&A 섹션 전용 스타일 - New8_qnas.html에서 가져온 스타일 */
         .qna-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 예쁜 그라데이션 배경 */
-            padding: 80px 0; /* 위아래 여백 */
-            min-height: auto; /* 자동 높이 */
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 80px 0;
+            min-height: auto;
         }
 
-        .qna-section .qna-container {
-            max-width: 1000px; /* 최대 너비 제한 */
-            margin: 0 auto; /* 가운데 정렬 */
-            background: white; /* 흰색 배경 */
-            border-radius: 20px; /* 모서리를 둥글게 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 그림자 효과 */
-            padding: 50px; /* 안쪽 여백 */
-            animation: fadeInUp 1s ease-out; /* 부드럽게 나타나는 애니메이션 */
+        .qna-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        /* 부드럽게 나타나는 애니메이션 정의 (초등학생용 주석) */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0; /* 투명하게 시작 */
-                transform: translateY(30px); /* 아래에서 시작 */
-            }
-            to {
-                opacity: 1; /* 완전히 보이게 */
-                transform: translateY(0); /* 원래 위치로 */
-            }
+        .qna-section h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
 
-        /* Q&A 메인 제목 스타일 (초등학생용 주석) */
-        .qna-section .qna-title {
-            font-size: 2.5rem; /* 큰 글씨 크기 */
-            font-weight: 700; /* 굵은 글씨 */
-            color: #2c3e50; /* 진한 파란색 */
-            text-align: center; /* 가운데 정렬 */
-            margin-bottom: 15px; /* 아래쪽 여백 */
-            position: relative; /* 장식을 위한 위치 설정 */
+        .qna-section h2 {
+            color: #080808;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #030303;
+            padding-bottom: 10px;
         }
 
-        /* 제목 아래 장식선 (초등학생용 주석) */
-        .qna-section .qna-title::after {
-            content: ''; /* 빈 내용 */
-            display: block; /* 블록으로 표시 */
-            width: 80px; /* 너비 */
-            height: 4px; /* 높이 */
-            background: linear-gradient(45deg, #3498db, #2980b9); /* 파란색 그라데이션 */
-            margin: 10px auto; /* 가운데 정렬 */
-            border-radius: 2px; /* 모서리 둥글게 */
+        .qna-section .qna-section-inner, .qna-section .faq-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Q&A 부제목 스타일 (초등학생용 주석) */
-        .qna-section .qna-subtitle {
-            font-size: 1.2rem; /* 중간 글씨 크기 */
-            color: #7f8c8d; /* 회색 */
-            text-align: center; /* 가운데 정렬 */
-            margin-bottom: 40px; /* 아래쪽 여백 */
+        .qna-section .question-form {
+            margin-bottom: 40px;
         }
 
-        /* 질문 입력 폼 영역 (초등학생용 주석) */
-        .qna-section .qna-form {
-            background: #f5f5dc; /* 베이지색 배경 */
-            border-radius: 15px; /* 모서리 둥글게 */
-            padding: 30px; /* 안쪽 여백 */
-            margin-bottom: 40px; /* 아래쪽 여백 */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-            color: #000000; /* 검은색 글자 */
+        .qna-section .form-group {
+            margin-bottom: 20px;
         }
 
-        /* 폼 제목 스타일 (초등학생용 주석) */
-        .qna-section .form-title {
-            color: rgb(31, 30, 30); /* 진한 회색 글씨 */
-            font-size: 1.5rem; /* 글씨 크기 */
-            font-weight: 600; /* 굵은 글씨 */
-            margin-bottom: 20px; /* 아래쪽 여백 */
-            text-align: center; /* 가운데 정렬 */
+        .qna-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
         }
 
-        /* 입력 라벨 스타일 (초등학생용 주석) */
-        .qna-section .qna-form label {
-            display: block; /* 블록으로 표시 */
-            margin-bottom: 8px; /* 아래쪽 여백 */
-            font-weight: 500; /* 중간 굵기 */
-            color: rgb(18, 17, 17); /* 진한 회색 글씨 */
-            font-size: 1rem; /* 글씨 크기 */
+        .qna-section input[type="text"], 
+        .qna-section input[type="email"], 
+        .qna-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
         }
 
-        /* 텍스트 입력창 스타일 (초등학생용 주석) */
-        .qna-section .qna-form textarea {
-            width: 100%; /* 전체 너비 */
-            padding: 15px; /* 안쪽 여백 */
-            margin-bottom: 20px; /* 아래쪽 여백 */
-            border: none; /* 테두리 없애기 */
-            border-radius: 10px; /* 모서리 둥글게 */
-            font-size: 1rem; /* 글씨 크기 */
-            font-family: 'Noto Sans KR', sans-serif; /* 넥슨폰트 사용 */
-            resize: vertical; /* 세로로만 크기 조절 가능 */
-            min-height: 120px; /* 최소 높이 */
-            transition: all 0.3s ease; /* 부드러운 변화 */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 그림자 */
+        .qna-section input[type="text"]:focus, 
+        .qna-section input[type="email"]:focus, 
+        .qna-section textarea:focus {
+            outline: none;
+            border-color: #3498db;
         }
 
-        /* 텍스트 입력창에 마우스 올렸을 때 (초등학생용 주석) */
-        .qna-section .qna-form textarea:focus {
-            outline: none; /* 기본 테두리 없애기 */
-            transform: translateY(-2px); /* 살짝 위로 올리기 */
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* 그림자 진하게 */
+        .qna-section textarea {
+            height: 120px;
+            resize: vertical;
         }
 
-        /* 관리자 답변 입력창 (초등학생용 주석: 관리자가 개인적으로 답변하는 곳) */
-        .qna-section .admin-response {
-            margin-top: 15px; /* 위쪽 여백 */
+        .qna-section .btn {
+            background-color: #33457f;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
         }
 
-        .qna-section .admin-response textarea {
-            background-color: #f8f9fa; /* 연한 회색 배경 */
-            border: 2px dashed #dee2e6; /* 점선 테두리 */
-            color: #6c757d; /* 회색 글씨 */
+        .qna-section .btn:hover {
+            background-color: #2980b9;
         }
 
-        /* 버튼 스타일 (초등학생용 주석) */
-        .qna-section .qna-form button {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24); /* 빨간색 그라데이션 */
-            color: white; /* 흰색 글씨 */
-            border: none; /* 테두리 없애기 */
-            padding: 15px 30px; /* 안쪽 여백 */
-            border-radius: 25px; /* 둥근 모서리 */
-            font-size: 1.1rem; /* 글씨 크기 */
-            font-weight: 600; /* 굵은 글씨 */
-            cursor: pointer; /* 마우스 포인터 모양 */
-            transition: all 0.3s ease; /* 부드러운 변화 */
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); /* 그림자 */
-            display: block; /* 블록으로 표시 */
-            margin: 0 auto; /* 가운데 정렬 */
-        }
-
-        /* 버튼에 마우스 올렸을 때 (초등학생용 주석) */
-        .qna-section .qna-form button:hover {
-            transform: translateY(-3px); /* 위로 올리기 */
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4); /* 그림자 진하게 */
-        }
-
-        /* 질문 목록 영역 (초등학생용 주석) */
-        .qna-section .qna-list {
-            margin-bottom: 40px; /* 아래쪽 여백 */
-        }
-
-        /* 개별 질문 카드 (초등학생용 주석) */
         .qna-section .qna-item {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); /* 파란색 그라데이션 */
-            border-radius: 15px; /* 모서리 둥글게 */
-            padding: 25px; /* 안쪽 여백 */
-            margin-bottom: 20px; /* 아래쪽 여백 */
-            box-shadow: 0 5px 15px rgba(116, 185, 255, 0.3); /* 그림자 */
-            transition: all 0.3s ease; /* 부드러운 변화 */
-            position: relative; /* 장식을 위한 위치 설정 */
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
 
-        /* 질문 카드에 마우스 올렸을 때 (초등학생용 주석) */
-        .qna-section .qna-item:hover {
-            transform: translateY(-5px); /* 위로 올리기 */
-            box-shadow: 0 8px 25px rgba(116, 185, 255, 0.4); /* 그림자 진하게 */
+        .qna-section .question {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
-        /* 질문 텍스트 스타일 (초등학생용 주석) */
-        .qna-section .qna-item .question {
-            font-weight: 600; /* 굵은 글씨 */
-            color: white; /* 흰색 글씨 */
-            font-size: 1.1rem; /* 글씨 크기 */
-            margin-bottom: 10px; /* 아래쪽 여백 */
+        .qna-section .question h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
-        /* 답변 텍스트 스타일 (초등학생용 주석) */
-        .qna-section .qna-item .answer {
-            color: #dff9fb; /* 연한 파란색 글씨 */
-            font-size: 1rem; /* 글씨 크기 */
-            line-height: 1.6; /* 줄 간격 */
-            margin-top: 10px; /* 위쪽 여백 */
+        .qna-section .question-meta {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
         }
 
-        /* 등록일 표시 스타일 (초등학생용 주석) */
-        .qna-section .timestamp {
-            font-size: 0.9rem; /* 작은 글씨 */
-            color: rgba(255,255,255,0.8); /* 반투명 흰색 */
-            margin-top: 15px; /* 위쪽 여백 */
-            text-align: right; /* 오른쪽 정렬 */
+        .qna-section .answer {
+            padding: 20px;
+            background-color: #fff;
         }
 
-        /* FAQ 섹션 (초등학생용 주석) */
-        .qna-section .faq {
-            margin-top: 50px; /* 위쪽 여백 */
-            padding-top: 40px; /* 위쪽 안쪽 여백 */
-            border-top: 3px solid #e9ecef; /* 위쪽 테두리 */
+        .qna-section .no-answer {
+            color: #95a5a6;
+            font-style: italic;
         }
 
-        /* FAQ 제목 (초등학생용 주석) */
-        .qna-section .faq h2 {
-            font-size: 2rem; /* 큰 글씨 */
-            font-weight: 700; /* 굵은 글씨 */
-            color: #2c3e50; /* 진한 파란색 */
-            text-align: center; /* 가운데 정렬 */
-            margin-bottom: 30px; /* 아래쪽 여백 */
+        .qna-section .admin-answer {
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-top: 10px;
         }
 
-        /* FAQ 개별 항목 (초등학생용 주석) */
         .qna-section .faq-item {
-            background: white; /* 흰색 배경 */
-            border-radius: 12px; /* 모서리 둥글게 */
-            padding: 20px; /* 안쪽 여백 */
-            margin-bottom: 15px; /* 아래쪽 여백 */
-            border-left: 5px solid #3498db; /* 왼쪽 파란색 테두리 */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* 연한 그림자 */
-            transition: all 0.3s ease; /* 부드러운 변화 */
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
         }
 
-        /* FAQ 항목에 마우스 올렸을 때 (초등학생용 주석) */
-        .qna-section .faq-item:hover {
-            transform: translateX(10px); /* 오른쪽으로 이동 */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 그림자 진하게 */
+        .qna-section .faq-item:last-child {
+            border-bottom: none;
         }
 
-        /* FAQ 질문 스타일 (초등학생용 주석) */
-        .qna-section .faq-q {
-            font-weight: 600; /* 굵은 글씨 */
-            color: #2c3e50; /* 진한 파란색 */
-            font-size: 1.1rem; /* 글씨 크기 */
-            margin-bottom: 8px; /* 아래쪽 여백 */
+        .qna-section .faq-question {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
-        /* FAQ 답변 스타일 (초등학생용 주석) */
-        .qna-section .faq-a {
-            color: #7f8c8d; /* 회색 */
-            font-size: 1rem; /* 글씨 크기 */
-            line-height: 1.6; /* 줄 간격 */
+        .qna-section .faq-question::before {
+            content: "Q. ";
+            color: #3498db;
+            font-weight: 700;
+            margin-right: 5px;
         }
 
-        /* 빈 상태 메시지 (초등학생용 주석) */
-        .qna-section .empty-message {
-            text-align: center; /* 가운데 정렬 */
-            color: #95a5a6; /* 연한 회색 */
-            font-style: italic; /* 기울임체 */
-            padding: 40px; /* 안쪽 여백 */
-            background: #f8f9fa; /* 연한 회색 배경 */
-            border-radius: 10px; /* 모서리 둥글게 */
-            margin: 20px 0; /* 위아래 여백 */
+        .qna-section .faq-answer {
+            color: #555;
+            padding-left: 20px;
+            display: none;
         }
 
-        /* 태블릿 화면용 스타일 (초등학생용 주석: 태블릿에서 보기 좋게) */
+        .qna-section .faq-answer::before {
+            content: "A. ";
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .qna-section .faq-answer.show {
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* 반응형 디자인 */
         @media (max-width: 768px) {
-            .qna-section .qna-container {
-                margin: 20px; /* 여백 줄이기 */
-                padding: 30px; /* 안쪽 여백 줄이기 */
+            .qna-section .container {
+                padding: 15px;
             }
             
-            .qna-section .qna-title {
-                font-size: 2rem; /* 글씨 크기 줄이기 */
+            .qna-section h1 {
+                font-size: 2rem;
             }
             
-            .qna-section .qna-form {
-                padding: 20px; /* 안쪽 여백 줄이기 */
+            .qna-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .qna-section .qna-section-inner, .qna-section .faq-section {
+                padding: 20px;
             }
         }
 
-        /* 모바일 화면용 스타일 (초등학생용 주석: 핸드폰에서 보기 좋게) */
         @media (max-width: 480px) {
-            .qna-section .qna-container {
-                margin: 10px; /* 여백 더 줄이기 */
-                padding: 20px; /* 안쪽 여백 더 줄이기 */
+            .qna-section .container {
+                padding: 10px;
             }
             
-            .qna-section .qna-title {
-                font-size: 1.8rem; /* 글씨 크기 더 줄이기 */
+            .qna-section h1 {
+                font-size: 1.8rem;
             }
             
-            .qna-section .qna-form {
-                padding: 15px; /* 안쪽 여백 더 줄이기 */
+            .qna-section .qna-section-inner, .qna-section .faq-section {
+                padding: 15px;
             }
             
-            .qna-section .qna-form button {
-                padding: 12px 25px; /* 버튼 크기 줄이기 */
-                font-size: 1rem; /* 글씨 크기 줄이기 */
+            .qna-section .question, .qna-section .answer {
+                padding: 15px;
             }
         }
     </style>
@@ -684,85 +613,164 @@
 
     <!-- Q&A 섹션 -->
     <section id="qna" class="qna-section">
-        <div class="qna-container">
-            <!-- 메인 제목 (초등학생용 주석) -->
-            <h1 class="qna-title">Q&A</h1>
-            <p class="qna-subtitle">궁금한 점이 있으시면 언제든지 문의해 주세요</p>
+        <div class="container">
+            <!-- 페이지 제목 -->
+            <h1>Q&A 게시판</h1>
             
-            <!-- 질문 입력 폼 (초등학생용 주석: 질문을 적는 곳) -->
-            <div class="qna-form">
-                <h3 class="form-title">💬 질문하기</h3>
-                <form id="qnaForm">
-                    <label for="question">질문을 입력하세요:</label>
-                    <textarea id="question" name="question" rows="4" required placeholder="중간계 AI 스튜디오에 대해 궁금한 점을 자유롭게 남겨주세요..."></textarea>
-                    
-                    <!-- 관리자 답변 입력란 (초등학생용 주석: 관리자가 개인적으로 답변하는 곳) -->
-                    <div class="admin-response">
-                        <label for="adminAnswer">관리자 개인 답변 (선택사항):</label>
-                        <textarea id="adminAnswer" name="adminAnswer" rows="3" placeholder="관리자가 개인적으로 답변을 미리 작성할 수 있습니다..."></textarea>
+            <!-- Q&A 섹션 시작 -->
+            <div class="qna-section-inner">
+                <h2>질문하기</h2>
+                
+                <!-- 질문 작성 폼 -->
+                <form class="question-form" id="questionForm">
+                    <!-- 이름 입력 그룹 -->
+                    <div class="form-group">
+                        <label for="name">이름:</label>
+                        <input type="text" id="name" name="name" required placeholder="이름을 입력해주세요">
+                    </div>
+                                    
+                    <!-- 제목 입력 그룹 -->
+                    <div class="form-group">
+                        <label for="title">제목:</label>
+                        <input type="text" id="title" name="title" required placeholder="질문 제목을 입력해주세요">
                     </div>
                     
-                    <button type="submit">질문 등록하기</button>
+                    <!-- 질문 내용 입력 그룹 -->
+                    <div class="form-group">
+                        <label for="question">질문 내용:</label>
+                        <textarea id="question" name="question" required placeholder="궁금한 내용을 자세히 적어주세요"></textarea>
+                    </div>
+                    
+                    <!-- 제출 버튼 -->
+                    <button type="submit" class="btn">질문 등록하기</button>
                 </form>
+                
+                <h2>등록된 질문들</h2>
+                
+                <!-- 등록된 질문들을 보여주는 영역 -->
+                <div id="questionsList">
+                    <!-- 예시 질문 1 -->
+                    <div class="qna-item">
+                        <div class="question">
+                            <h3>배송은 얼마나 걸리나요?</h3>
+                            <div class="question-meta">작성자: 김고객 | 작성일: 2024-01-15</div>
+                            <p>주문한 상품이 언제쯤 도착할지 궁금합니다.</p>
+                        </div>
+                        <div class="answer">
+                            <div class="admin-answer">
+                                <strong>관리자 답변:</strong><br>
+                                안녕하세요. 일반적으로 주문 후 2-3일 내에 배송됩니다. 주말과 공휴일은 제외됩니다.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 예시 질문 2 -->
+                    <div class="qna-item">
+                        <div class="question">
+                            <h3>환불은 어떻게 하나요?</h3>
+                            <div class="question-meta">작성자: 이고객 | 작성일: 2024-01-14</div>
+                            <p>구매한 상품이 마음에 들지 않아서 환불하고 싶습니다.</p>
+                        </div>
+                        <div class="answer">
+                            <div class="no-answer">아직 답변이 등록되지 않았습니다.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <!-- 등록된 질문 목록 (초등학생용 주석: 질문들이 보이는 곳) -->
-            <div class="qna-list" id="qnaList">
-                <!-- 질문/답변이 여기에 표시됩니다 (초등학생용 주석) -->
-            </div>
-            
-            <!-- FAQ 섹션 (초등학생용 주석: 자주 묻는 질문들) -->
-            <div class="faq">
-                <h2>🔍 자주 묻는 질문 (FAQ)</h2>
+            <!-- FAQ 섹션 시작 -->
+            <div class="faq-section">
+                <h2>자주 묻는 질문 (FAQ)</h2>
                 
+                <!-- FAQ 아이템들 -->
                 <div class="faq-item">
-                    <div class="faq-q">Q1. 중간계 AI 스튜디오는 어떤 서비스를 제공하나요?</div>
-                    <div class="faq-a">A1. 인공지능 기반의 데이터 분석, 챗봇 개발, 이미지/음성 인식, AI 상세페이지, 쇼츠/릴스 제작 등 다양한 AI 솔루션을 제공합니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        회원가입은 어떻게 하나요?
+                    </div>
+                    <div class="faq-answer">
+                        홈페이지 상단의 '회원가입' 버튼을 클릭하시고, 필요한 정보를 입력하시면 됩니다. 이메일 인증 후 바로 이용 가능합니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q2. 상담은 어떻게 신청하나요?</div>
-                    <div class="faq-a">A2. 홈페이지의 상담 신청 폼을 통해 문의하시거나, 전화(02-123-1234) 또는 이메일(abc@gmail.com)로 연락주시면 됩니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        비밀번호를 잊어버렸어요.
+                    </div>
+                    <div class="faq-answer">
+                        로그인 페이지에서 '비밀번호 찾기'를 클릭하시고, 가입시 등록한 이메일을 입력하시면 새 비밀번호를 받으실 수 있습니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q3. AI 프로젝트 개발 기간은 얼마나 걸리나요?</div>
-                    <div class="faq-a">A3. 프로젝트 규모와 복잡도에 따라 다르지만, 일반적으로 2주~3개월 정도 소요됩니다. 정확한 일정은 상담 후 안내해드립니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        주문 취소는 언제까지 가능한가요?
+                    </div>
+                    <div class="faq-answer">
+                        상품 발송 전까지 주문 취소가 가능합니다. 마이페이지에서 주문내역을 확인하시고 취소 버튼을 눌러주세요.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q4. 견적은 어떻게 받을 수 있나요?</div>
-                    <div class="faq-a">A4. 프로젝트 요구사항을 상세히 알려주시면, 담당자가 24시간 내에 맞춤형 견적을 제공해드립니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        적립금은 어떻게 사용하나요?
+                    </div>
+                    <div class="faq-answer">
+                        결제 시 적립금 사용을 선택하시면 보유한 적립금만큼 할인받으실 수 있습니다. 최소 사용 금액은 1,000원입니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q5. AI 교육 프로그램도 제공하나요?</div>
-                    <div class="faq-a">A5. 네, 기업 임직원 및 개인을 위한 맞춤형 AI 교육 프로그램을 운영하고 있습니다. 기초부터 실무까지 단계별로 진행됩니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        배송비는 얼마인가요?
+                    </div>
+                    <div class="faq-answer">
+                        3만원 이상 구매시 무료배송이며, 3만원 미만 구매시 배송비 3,000원이 부과됩니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q6. 데이터 보안은 어떻게 관리되나요?</div>
-                    <div class="faq-a">A6. 고객 데이터는 최고 수준의 암호화 기술과 접근제어 시스템으로 보호되며, 국제 보안 표준을 준수합니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        교환/반품 기간은 얼마나 되나요?
+                    </div>
+                    <div class="faq-answer">
+                        상품 수령 후 7일 이내에 교환/반품 신청이 가능합니다. 단, 사용한 상품이나 포장이 훼손된 경우는 불가능합니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q7. AI 솔루션 도입 후 유지보수는 어떻게 되나요?</div>
-                    <div class="faq-a">A7. 도입 후 6개월간 무료 기술지원을 제공하며, 이후에도 지속적인 유지보수 서비스를 합리적인 비용으로 제공합니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        결제 방법은 어떤 것들이 있나요?
+                    </div>
+                    <div class="faq-answer">
+                        신용카드, 계좌이체, 무통장입금, 카카오페이, 네이버페이 등 다양한 결제 방법을 지원합니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q8. 맞춤형 AI 개발이 가능한가요?</div>
-                    <div class="faq-a">A8. 물론입니다. 고객의 특별한 요구사항에 맞춘 완전 맞춤형 AI 솔루션 개발이 가능하며, 이는 저희의 핵심 강점입니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        상품 재고는 어떻게 확인하나요?
+                    </div>
+                    <div class="faq-answer">
+                        각 상품 페이지에서 재고 현황을 확인하실 수 있습니다. 품절된 상품은 '재입고 알림'을 신청하실 수 있습니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q9. 포트폴리오나 샘플 프로젝트를 볼 수 있나요?</div>
-                    <div class="faq-a">A9. 홈페이지의 포트폴리오 섹션에서 다양한 성공 사례를 확인하실 수 있으며, 상담 시 더 자세한 레퍼런스를 제공해드립니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        고객센터 운영시간은 언제인가요?
+                    </div>
+                    <div class="faq-answer">
+                        평일 오전 9시부터 오후 6시까지 운영하며, 주말과 공휴일은 휴무입니다. 온라인 문의는 24시간 접수 가능합니다.
+                    </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-q">Q10. 서비스 이용 요금은 어떻게 되나요?</div>
-                    <div class="faq-a">A10. 서비스 종류와 프로젝트 규모에 따라 요금이 달라집니다. 무료 상담을 통해 정확한 견적을 받아보시기 바랍니다.</div>
+                    <div class="faq-question" onclick="toggleAnswer(this)">
+                        회원 탈퇴는 어떻게 하나요?
+                    </div>
+                    <div class="faq-answer">
+                        마이페이지 > 회원정보 수정에서 회원 탈퇴를 신청하실 수 있습니다. 탈퇴 시 모든 개인정보와 적립금이 삭제됩니다.
+                    </div>
                 </div>
             </div>
         </div>

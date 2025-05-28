@@ -335,6 +335,7 @@ function showLoginMessage(message, type = 'info') {
 
 // 전역 함수로 등록 (HTML에서 호출 가능하도록)
 window.handleLogout = handleLogout;
+window.toggleAnswer = toggleAnswer;
 
 // Q&A 섹션 JavaScript 기능
 // FAQ 답변을 보이거나 숨기는 함수 - 질문을 클릭하면 답변이 나타나거나 사라짐
@@ -356,45 +357,110 @@ function toggleAnswer(element) {
 document.addEventListener('DOMContentLoaded', function() {
     const questionForm = document.getElementById('questionForm');
     if (questionForm) {
-        questionForm.addEventListener('submit', function(e) {
-            // 폼이 실제로 서버로 전송되는 것을 막기 (데모용)
+        questionForm.addEventListener('submit', async function(e) {
+            // 폼이 실제로 서버로 전송되는 것을 막기
             e.preventDefault();
             
             // 입력된 값들 가져오기
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
             const title = document.getElementById('title').value;
             const question = document.getElementById('question').value;
             
-            // 현재 날짜 만들기
-            const today = new Date();
-            const dateString = today.getFullYear() + '-' + 
-                             String(today.getMonth() + 1).padStart(2, '0') + '-' + 
-                             String(today.getDate()).padStart(2, '0');
+            // 입력값 검증
+            if (!name || !title || !question) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
             
-            // 새로운 질문 HTML 만들기
-            const newQuestion = `
-                <div class="qna-item">
-                    <div class="question">
-                        <h3>${title}</h3>
-                        <div class="question-meta">작성자: ${name} | 작성일: ${dateString}</div>
-                        <p>${question}</p>
-                    </div>
-                    <div class="answer">
-                        <div class="no-answer">아직 답변이 등록되지 않았습니다.</div>
-                    </div>
-                </div>
-            `;
-            
-            // 질문 목록의 맨 위에 새 질문 추가하기
-            const questionsList = document.getElementById('questionsList');
-            questionsList.insertAdjacentHTML('afterbegin', newQuestion);
-            
-            // 폼 내용 지우기
-            this.reset();
-            
-            // 성공 메시지 보여주기
-            alert('질문이 성공적으로 등록되었습니다!');
+            try {
+                // Firebase Realtime Database에 질문 저장
+                const questionsRef = ref(database, 'questions');
+                const newQuestionData = {
+                    name: name,
+                    title: title,
+                    question: question,
+                    timestamp: serverTimestamp(),
+                    answered: false
+                };
+                
+                // 데이터베이스에 저장
+                await push(questionsRef, newQuestionData);
+                
+                // 폼 내용 지우기
+                this.reset();
+                
+                // 성공 메시지 보여주기
+                showLoginMessage('질문이 성공적으로 등록되었습니다!', 'success');
+                
+            } catch (error) {
+                console.error('질문 저장 오류:', error);
+                showLoginMessage('질문 등록 중 오류가 발생했습니다.', 'error');
+            }
         });
     }
-}); 
+    
+    // 페이지 로드 시 기존 질문들 불러오기
+    loadQuestions();
+});
+
+// Firebase에서 질문들을 불러오는 함수
+function loadQuestions() {
+    const questionsRef = ref(database, 'questions');
+    
+    onValue(questionsRef, (snapshot) => {
+        const questionsList = document.getElementById('questionsList');
+        if (!questionsList) return;
+        
+        // 기존 질문들 제거 (예시 질문들 제외하고)
+        const dynamicQuestions = questionsList.querySelectorAll('.qna-item.dynamic');
+        dynamicQuestions.forEach(item => item.remove());
+        
+        const data = snapshot.val();
+        if (data) {
+            // 질문들을 배열로 변환하고 시간순으로 정렬 (최신순)
+            const questionsArray = Object.entries(data).map(([key, value]) => ({
+                id: key,
+                ...value
+            }));
+            
+            // 타임스탬프 기준으로 정렬 (최신순)
+            questionsArray.sort((a, b) => {
+                if (a.timestamp && b.timestamp) {
+                    return b.timestamp - a.timestamp;
+                }
+                return 0;
+            });
+            
+            // 각 질문을 HTML로 변환하여 추가
+            questionsArray.forEach(questionData => {
+                const questionDate = questionData.timestamp ? 
+                    new Date(questionData.timestamp).toLocaleDateString('ko-KR') : 
+                    '날짜 없음';
+                
+                const newQuestionHTML = `
+                    <div class="qna-item dynamic">
+                        <div class="question">
+                            <h3>${questionData.title}</h3>
+                            <div class="question-meta">작성자: ${questionData.name} | 작성일: ${questionDate}</div>
+                            <p>${questionData.question}</p>
+                        </div>
+                        <div class="answer">
+                            ${questionData.answer ? 
+                                `<div class="admin-answer">
+                                    <strong>관리자 답변:</strong><br>
+                                    ${questionData.answer}
+                                </div>` :
+                                `<div class="no-answer">아직 답변이 등록되지 않았습니다.</div>`
+                            }
+                        </div>
+                    </div>
+                `;
+                
+                // 예시 질문들 뒤에 추가
+                questionsList.insertAdjacentHTML('beforeend', newQuestionHTML);
+            });
+        }
+    }, (error) => {
+        console.error('질문 불러오기 오류:', error);
+    });
+} 

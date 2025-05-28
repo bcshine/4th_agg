@@ -355,53 +355,116 @@ function toggleAnswer(element) {
 
 // 질문 등록 폼 처리 함수
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM 로드 완료 - Q&A 폼 초기화 시작');
+    
     const questionForm = document.getElementById('questionForm');
+    console.log('질문 폼 요소:', questionForm);
+    
     if (questionForm) {
-        questionForm.addEventListener('submit', async function(e) {
-            // 폼이 실제로 서버로 전송되는 것을 막기
-            e.preventDefault();
-            
-            // 입력된 값들 가져오기
-            const name = document.getElementById('name').value;
-            const title = document.getElementById('title').value;
-            const question = document.getElementById('question').value;
-            
-            // 입력값 검증
-            if (!name || !title || !question) {
-                alert('모든 필드를 입력해주세요.');
-                return;
-            }
-            
-            try {
-                // Firebase Realtime Database에 질문 저장
-                const questionsRef = ref(database, 'questions');
-                const newQuestionData = {
-                    name: name,
-                    title: title,
-                    question: question,
-                    timestamp: serverTimestamp(),
-                    answered: false
-                };
-                
-                // 데이터베이스에 저장
-                await push(questionsRef, newQuestionData);
-                
-                // 폼 내용 지우기
-                this.reset();
-                
-                // 성공 메시지 보여주기
-                showLoginMessage('질문이 성공적으로 등록되었습니다!', 'success');
-                
-            } catch (error) {
-                console.error('질문 저장 오류:', error);
-                showLoginMessage('질문 등록 중 오류가 발생했습니다.', 'error');
-            }
-        });
+        // 기존 이벤트 리스너 제거 (중복 방지)
+        questionForm.removeEventListener('submit', handleQuestionSubmit);
+        
+        // 새 이벤트 리스너 추가
+        questionForm.addEventListener('submit', handleQuestionSubmit);
+        
+        // 모바일에서 터치 이벤트도 처리
+        const submitBtn = questionForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                console.log('모바일 터치 이벤트 감지');
+                handleQuestionSubmit(e);
+            });
+        }
+        
+        console.log('Q&A 폼 이벤트 리스너 등록 완료');
+    } else {
+        console.error('질문 폼을 찾을 수 없습니다!');
     }
     
     // 페이지 로드 시 기존 질문들 불러오기
     loadQuestions();
 });
+
+// 질문 제출 처리 함수 (분리하여 재사용 가능하게)
+async function handleQuestionSubmit(e) {
+    console.log('질문 제출 이벤트 발생:', e.type);
+    
+    // 폼이 실제로 서버로 전송되는 것을 막기
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 입력된 값들 가져오기
+    const nameInput = document.getElementById('name');
+    const titleInput = document.getElementById('title');
+    const questionInput = document.getElementById('question');
+    
+    console.log('입력 요소들:', { nameInput, titleInput, questionInput });
+    
+    if (!nameInput || !titleInput || !questionInput) {
+        console.error('입력 요소를 찾을 수 없습니다!');
+        showLoginMessage('폼 요소를 찾을 수 없습니다.', 'error');
+        return;
+    }
+    
+    const name = nameInput.value.trim();
+    const title = titleInput.value.trim();
+    const question = questionInput.value.trim();
+    
+    console.log('입력값들:', { name, title, question });
+    
+    // 입력값 검증
+    if (!name || !title || !question) {
+        console.log('입력값 검증 실패');
+        showLoginMessage('모든 필드를 입력해주세요.', 'error');
+        return;
+    }
+    
+    // 제출 버튼 비활성화 (중복 제출 방지)
+    const submitBtn = document.querySelector('#questionForm button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '등록 중...';
+    }
+    
+    try {
+        console.log('Firebase에 질문 저장 시작');
+        
+        // Firebase Realtime Database에 질문 저장
+        const questionsRef = ref(database, 'questions');
+        const newQuestionData = {
+            name: name,
+            title: title,
+            question: question,
+            timestamp: serverTimestamp(),
+            answered: false
+        };
+        
+        console.log('저장할 데이터:', newQuestionData);
+        
+        // 데이터베이스에 저장
+        const result = await push(questionsRef, newQuestionData);
+        console.log('Firebase 저장 성공:', result.key);
+        
+        // 폼 내용 지우기
+        nameInput.value = '';
+        titleInput.value = '';
+        questionInput.value = '';
+        
+        // 성공 메시지 보여주기
+        showLoginMessage('질문이 성공적으로 등록되었습니다!', 'success');
+        
+    } catch (error) {
+        console.error('질문 저장 오류:', error);
+        showLoginMessage('질문 등록 중 오류가 발생했습니다: ' + error.message, 'error');
+    } finally {
+        // 제출 버튼 다시 활성화
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '질문 등록하기';
+        }
+    }
+}
 
 // Firebase에서 질문들을 불러오는 함수
 function loadQuestions() {

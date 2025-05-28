@@ -75,6 +75,10 @@
             font-size: 16px;
             font-family: inherit;
             transition: border-color 0.3s;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .qna-section input[type="text"]:focus, 
@@ -82,27 +86,47 @@
         .qna-section textarea:focus {
             outline: none;
             border-color: #3498db;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .qna-section textarea {
             height: 120px;
             resize: vertical;
+            min-height: 80px;
         }
 
         .qna-section .btn {
             background-color: #33457f;
             color: white;
-            padding: 12px 30px;
+            padding: 15px 30px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
             transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .qna-section .btn:hover {
             background-color: #2980b9;
+        }
+
+        .qna-section .btn:active {
+            background-color: #1e6091;
+            transform: translateY(1px);
+        }
+
+        .qna-section .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .qna-section .qna-item {
@@ -205,6 +229,24 @@
             .qna-section .qna-section-inner, .qna-section .faq-section {
                 padding: 20px;
             }
+            
+            .qna-section input[type="text"], 
+            .qna-section input[type="email"], 
+            .qna-section textarea {
+                font-size: 16px;
+                padding: 15px;
+                min-height: 44px;
+            }
+            
+            .qna-section textarea {
+                min-height: 100px;
+            }
+            
+            .qna-section .btn {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-height: 50px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -222,6 +264,34 @@
             
             .qna-section .question, .qna-section .answer {
                 padding: 15px;
+            }
+            
+            .qna-section input[type="text"], 
+            .qna-section input[type="email"], 
+            .qna-section textarea {
+                font-size: 16px;
+                padding: 16px;
+                min-height: 48px;
+            }
+            
+            .qna-section textarea {
+                min-height: 120px;
+            }
+            
+            .qna-section .btn {
+                padding: 20px 30px;
+                font-size: 18px;
+                min-height: 56px;
+                border-radius: 8px;
+            }
+            
+            .qna-section .form-group {
+                margin-bottom: 25px;
+            }
+            
+            .qna-section label {
+                font-size: 16px;
+                margin-bottom: 10px;
             }
         }
     </style>

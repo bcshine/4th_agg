@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 중간계 AI 스튜디오</title>
+    <!-- 웹폰트 불러오기 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .login-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .login-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .form-switch p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .switch-btn {
+            background: none;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .switch-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* 회원가입 폼 숨김 */
+        .signup-form {
+            display: none;
+        }
+
+        /* 로딩 애니메이션 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 10px;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- 뒤로가기 버튼 -->
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <!-- 헤더 -->
+        <div class="login-header">
+            <h1>중간계 AI 스튜디오</h1>
+            <p>로그인하여 더 많은 서비스를 이용하세요</p>
+        </div>
+
+        <!-- 폼 컨테이너 -->
+        <div class="form-container">
+            <!-- 에러/성공 메시지 -->
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <!-- 로그인 폼 -->
+            <form id="loginForm" class="login-form">
+                <!-- 안내 메시지 추가 -->
+                <div style="background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.9rem; color: #1976d2;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">🔔 처음 방문하시나요?</div>
+                    <div>계정이 없으시면 먼저 <strong>회원가입</strong>을 해주세요!</div>
+                    <div style="margin-top: 8px; font-size: 0.8rem; opacity: 0.8;">
+                        또는 하단의 <strong>🔧 연결 테스트</strong> 버튼으로 테스트 계정을 만들 수 있습니다.
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginEmail">이메일</label>
+                    <input type="email" id="loginEmail" name="email" required placeholder="이메일을 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">비밀번호</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" name="password" required placeholder="비밀번호를 입력하세요">
+                        <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    로그인
+                </button>
+
+                <div class="form-switch">
+                    <p>계정이 없으신가요?</p>
+                    <button type="button" class="switch-btn" onclick="showSignupForm()">회원가입</button>
+                </div>
+            </form>
+
+            <!-- 회원가입 폼 -->
+            <form id="signupForm" class="signup-form">
+                <div class="form-group">
+                    <label for="signupName">이름</label>
+                    <input type="text" id="signupName" name="name" required placeholder="이름을 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPhone">전화번호</label>
+                    <input type="tel" id="signupPhone" name="phone" required placeholder="전화번호를 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">이메일</label>
+                    <input type="email" id="signupEmail" name="email" required placeholder="이메일을 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">비밀번호</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="signupPassword" name="password" required placeholder="비밀번호를 입력하세요">
+                        <i class="fas fa-eye password-toggle" onclick="togglePassword('signupPassword')"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">비밀번호 확인</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="비밀번호를 다시 입력하세요">
+                        <i class="fas fa-eye password-toggle" onclick="togglePassword('confirmPassword')"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="signupBtn">
+                    회원가입
+                </button>
+
+                <div class="form-switch">
+                    <p>이미 계정이 있으신가요?</p>
+                    <button type="button" class="switch-btn" onclick="showLoginForm()">로그인</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        // Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyCeV7uvdevWIOY7tx4tbftqZKUoqt2DaEc",
+            authDomain: "mid-ai-backend.firebaseapp.com",
+            projectId: "mid-ai-backend",
+            storageBucket: "mid-ai-backend.firebasestorage.app",
+            messagingSenderId: "835520853350",
+            appId: "1:835520853350:web:f3d544530830173f5144a7",
+            databaseURL: "https://mid-ai-backend-default-rtdb.firebaseio.com/",
+            measurementId: "G-LF30PLQCY8"
+        };
+
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // 전역 함수들을 window 객체에 추가
+        window.togglePassword = togglePassword;
+        window.showSignupForm = showSignupForm;
+        window.showLoginForm = showLoginForm;
+        window.goBack = goBack;
+
+        // 비밀번호 보기/숨기기 토글
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // 회원가입 폼 보기
+        function showSignupForm() {
+            document.querySelector('.login-form').style.display = 'none';
+            document.querySelector('.signup-form').style.display = 'block';
+            document.querySelector('.login-header h1').textContent = '회원가입';
+            document.querySelector('.login-header p').textContent = '중간계 AI 스튜디오에 가입하세요';
+            clearMessages();
+        }
+
+        // 로그인 폼 보기
+        function showLoginForm() {
+            document.querySelector('.signup-form').style.display = 'none';
+            document.querySelector('.login-form').style.display = 'block';
+            document.querySelector('.login-header h1').textContent = '중간계 AI 스튜디오';
+            document.querySelector('.login-header p').textContent = '로그인하여 더 많은 서비스를 이용하세요';
+            clearMessages();
+        }
+
+        // 뒤로가기
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 메시지 표시
+        function showMessage(message, type = 'error') {
+            clearMessages();
+            const messageElement = document.getElementById(type + 'Message');
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+            
+            // 3초 후 자동 숨김
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // 메시지 지우기
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // 로딩 상태 설정
+        function setLoading(buttonId, isLoading) {
+            const button = document.getElementById(buttonId);
+            if (isLoading) {
+                button.disabled = true;
+                button.innerHTML = '<span class="loading"></span>처리 중...';
+            } else {
+                button.disabled = false;
+                button.innerHTML = buttonId === 'loginBtn' ? '로그인' : '회원가입';
+            }
+        }
+
+        // 로그인 폼 제출
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            console.log('로그인 시도:', { email, passwordLength: password.length });
+            
+            setLoading('loginBtn', true);
+            clearMessages();
+            
+            try {
+                console.log('Firebase 인증 시도 중...');
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                console.log('로그인 성공:', user);
+                showMessage('로그인 성공! 메인 페이지로 이동합니다.', 'success');
+                
+                // 사용자 정보를 localStorage에 저장
+                localStorage.setItem('user', JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName
+                }));
+                
+                // 2초 후 메인 페이지로 이동
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('로그인 오류 상세:', error);
+                console.error('오류 코드:', error.code);
+                console.error('오류 메시지:', error.message);
+                
+                let errorMessage = '로그인에 실패했습니다.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = '등록되지 않은 이메일입니다. 회원가입을 먼저 해주세요.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = '비밀번호가 올바르지 않습니다.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = '유효하지 않은 이메일 형식입니다.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = '너무 많은 시도가 있었습니다. 잠시 후 다시 시도해주세요.';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = '❌ 이메일 또는 비밀번호가 올바르지 않습니다.\n\n🔍 확인사항:\n1. 이메일이 정확한지 확인\n2. 비밀번호가 정확한지 확인\n3. 회원가입을 먼저 했는지 확인\n\n💡 해결방법:\n- 회원가입 버튼을 클릭하여 새 계정 생성\n- 또는 🔧 연결 테스트 버튼으로 테스트 계정 사용';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = '비활성화된 계정입니다.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = '네트워크 연결을 확인해주세요.';
+                        break;
+                    default:
+                        errorMessage = `로그인 실패: ${error.message}\n\n오류 코드: ${error.code}\n\n💡 대부분의 경우 회원가입을 먼저 해야 합니다.`;
+                }
+                
+                showMessage(errorMessage, 'error');
+                
+                // 디버깅을 위한 추가 정보 표시
+                if (error.code === 'auth/user-not-found') {
+                    setTimeout(() => {
+                        showMessage('회원가입 버튼을 클릭하여 계정을 만들어보세요.', 'info');
+                    }, 3500);
+                }
+            } finally {
+                setLoading('loginBtn', false);
+            }
+        });
+
+        // 회원가입 폼 제출
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const phone = document.getElementById('signupPhone').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            console.log('회원가입 시도:', { name, phone, email, passwordLength: password.length });
+            
+            // 비밀번호 확인
+            if (password !== confirmPassword) {
+                showMessage('비밀번호가 일치하지 않습니다.', 'error');
+                return;
+            }
+            
+            // 비밀번호 강도 확인
+            if (password.length < 6) {
+                showMessage('비밀번호는 6자 이상이어야 합니다.', 'error');
+                return;
+            }
+            
+            setLoading('signupBtn', true);
+            clearMessages();
+            
+            try {
+                console.log('Firebase 회원가입 시도 중...');
+                // Firebase 인증으로 사용자 생성
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                console.log('Firebase 인증 계정 생성 성공:', user.uid);
+                
+                // 사용자 프로필 업데이트
+                await updateProfile(user, {
+                    displayName: name
+                });
+                
+                console.log('사용자 프로필 업데이트 완료');
+                
+                // 사용자 정보를 데이터베이스에 저장
+                await set(ref(database, 'users/' + user.uid), {
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString()
+                });
+                
+                console.log('사용자 정보 데이터베이스 저장 완료');
+                
+                showMessage('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.', 'success');
+                
+                // 2초 후 로그인 폼으로 전환
+                setTimeout(() => {
+                    showLoginForm();
+                    // 로그인 폼에 이메일 자동 입력
+                    document.getElementById('loginEmail').value = email;
+                    showMessage('이제 방금 만든 계정으로 로그인해보세요!', 'info');
+                }, 2000);
+                
+            } catch (error) {
+                console.error('회원가입 오류 상세:', error);
+                console.error('오류 코드:', error.code);
+                console.error('오류 메시지:', error.message);
+                
+                let errorMessage = '회원가입에 실패했습니다.';
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = '이미 사용 중인 이메일입니다. 로그인을 시도해보세요.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = '유효하지 않은 이메일 형식입니다.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = '비밀번호가 너무 약합니다. 더 강한 비밀번호를 사용해주세요.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = '네트워크 연결을 확인해주세요.';
+                        break;
+                    default:
+                        errorMessage = `회원가입 실패: ${error.message}`;
+                }
+                
+                showMessage(errorMessage, 'error');
+                
+                // 이미 가입된 이메일인 경우 로그인 폼으로 안내
+                if (error.code === 'auth/email-already-in-use') {
+                    setTimeout(() => {
+                        showMessage('로그인 버튼을 클릭하여 기존 계정으로 로그인해보세요.', 'info');
+                    }, 3500);
+                }
+            } finally {
+                setLoading('signupBtn', false);
+            }
+        });
+
+        console.log('🔥 Firebase 인증 시스템이 준비되었습니다!');
+        
+        // Firebase 연결 상태 확인
+        console.log('Firebase 설정:', {
+            apiKey: firebaseConfig.apiKey ? '설정됨' : '없음',
+            authDomain: firebaseConfig.authDomain,
+            projectId: firebaseConfig.projectId,
+            databaseURL: firebaseConfig.databaseURL
+        });
+        
+        // 인증 상태 변화 감지
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('현재 로그인된 사용자:', user.email);
+            } else {
+                console.log('현재 로그아웃 상태');
+            }
+        });
+        
+        // 페이지 로드 시 연결 테스트
+        setTimeout(() => {
+            console.log('Firebase Auth 객체:', auth);
+            console.log('Firebase Database 객체:', database);
+            
+            // 간단한 연결 테스트
+            try {
+                const testRef = ref(database, 'test');
+                console.log('데이터베이스 참조 생성 성공');
+            } catch (error) {
+                console.error('데이터베이스 연결 오류:', error);
+            }
+        }, 1000);
+    </script>
+    
+    <!-- 디버깅용 테스트 버튼 (개발 중에만 사용) -->
+    <div style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+        <button onclick="testFirebaseConnection()" style="
+            background: #ff6b6b; 
+            color: white; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 5px; 
+            cursor: pointer;
+            font-size: 12px;
+        ">🔧 연결 테스트</button>
+    </div>
+    
+    <script>
+        // 디버깅용 Firebase 연결 테스트 함수
+        function testFirebaseConnection() {
+            console.log('=== Firebase 연결 테스트 시작 ===');
+            
+            // 1. Firebase 앱 상태 확인
+            console.log('Firebase 앱 이름:', app.name);
+            console.log('Firebase 앱 옵션:', app.options);
+            
+            // 2. Auth 상태 확인
+            console.log('Auth 현재 사용자:', auth.currentUser);
+            console.log('Auth 설정:', auth.config);
+            
+            // 3. 간단한 테스트 계정으로 회원가입 시도
+            const testEmail = 'test@midai.com';
+            const testPassword = '123456';
+            
+            alert(`테스트 계정으로 회원가입을 시도합니다.\n이메일: ${testEmail}\n비밀번호: ${testPassword}\n\n개발자 도구(F12)에서 결과를 확인하세요.`);
+            
+            // 테스트 회원가입
+            createUserWithEmailAndPassword(auth, testEmail, testPassword)
+                .then((userCredential) => {
+                    console.log('✅ 테스트 회원가입 성공:', userCredential.user);
+                    alert('테스트 회원가입 성공! 이제 로그인을 시도해보세요.');
+                    
+                    // 자동으로 로그인 폼에 입력
+                    document.getElementById('loginEmail').value = testEmail;
+                    document.getElementById('loginPassword').value = testPassword;
+                })
+                .catch((error) => {
+                    console.log('테스트 회원가입 결과:', error.code);
+                    if (error.code === 'auth/email-already-in-use') {
+                        console.log('✅ 테스트 계정이 이미 존재함 - Firebase 연결 정상');
+                        alert('테스트 계정이 이미 존재합니다. 로그인을 시도해보세요.');
+                        
+                        // 자동으로 로그인 폼에 입력
+                        document.getElementById('loginEmail').value = testEmail;
+                        document.getElementById('loginPassword').value = testPassword;
+                    } else {
+                        console.error('❌ 테스트 회원가입 실패:', error);
+                        alert('Firebase 연결에 문제가 있습니다. 콘솔을 확인하세요.');
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

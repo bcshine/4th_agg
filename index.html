@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중간계 AI 스튜디오 - 통합 웹사이트</title>
+    <!-- 웹폰트 불러오기 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 외부 CSS 파일 연결 -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Q&A 섹션 전용 스타일 -->
+    <style>
+        /* Q&A 섹션 전용 스타일 (초등학생용 주석) */
+        .qna-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 예쁜 그라데이션 배경 */
+            padding: 80px 0; /* 위아래 여백 */
+            min-height: auto; /* 자동 높이 */
+        }
+
+        .qna-section .qna-container {
+            max-width: 1000px; /* 최대 너비 제한 */
+            margin: 0 auto; /* 가운데 정렬 */
+            background: white; /* 흰색 배경 */
+            border-radius: 20px; /* 모서리를 둥글게 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 그림자 효과 */
+            padding: 50px; /* 안쪽 여백 */
+            animation: fadeInUp 1s ease-out; /* 부드럽게 나타나는 애니메이션 */
+        }
+
+        /* 부드럽게 나타나는 애니메이션 정의 (초등학생용 주석) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0; /* 투명하게 시작 */
+                transform: translateY(30px); /* 아래에서 시작 */
+            }
+            to {
+                opacity: 1; /* 완전히 보이게 */
+                transform: translateY(0); /* 원래 위치로 */
+            }
+        }
+
+        /* Q&A 메인 제목 스타일 (초등학생용 주석) */
+        .qna-section .qna-title {
+            font-size: 2.5rem; /* 큰 글씨 크기 */
+            font-weight: 700; /* 굵은 글씨 */
+            color: #2c3e50; /* 진한 파란색 */
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 15px; /* 아래쪽 여백 */
+            position: relative; /* 장식을 위한 위치 설정 */
+        }
+
+        /* 제목 아래 장식선 (초등학생용 주석) */
+        .qna-section .qna-title::after {
+            content: ''; /* 빈 내용 */
+            display: block; /* 블록으로 표시 */
+            width: 80px; /* 너비 */
+            height: 4px; /* 높이 */
+            background: linear-gradient(45deg, #3498db, #2980b9); /* 파란색 그라데이션 */
+            margin: 10px auto; /* 가운데 정렬 */
+            border-radius: 2px; /* 모서리 둥글게 */
+        }
+
+        /* Q&A 부제목 스타일 (초등학생용 주석) */
+        .qna-section .qna-subtitle {
+            font-size: 1.2rem; /* 중간 글씨 크기 */
+            color: #7f8c8d; /* 회색 */
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 40px; /* 아래쪽 여백 */
+        }
+
+        /* 질문 입력 폼 영역 (초등학생용 주석) */
+        .qna-section .qna-form {
+            background: #f5f5dc; /* 베이지색 배경 */
+            border-radius: 15px; /* 모서리 둥글게 */
+            padding: 30px; /* 안쪽 여백 */
+            margin-bottom: 40px; /* 아래쪽 여백 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            color: #000000; /* 검은색 글자 */
+        }
+
+        /* 폼 제목 스타일 (초등학생용 주석) */
+        .qna-section .form-title {
+            color: rgb(31, 30, 30); /* 진한 회색 글씨 */
+            font-size: 1.5rem; /* 글씨 크기 */
+            font-weight: 600; /* 굵은 글씨 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        /* 입력 라벨 스타일 (초등학생용 주석) */
+        .qna-section .qna-form label {
+            display: block; /* 블록으로 표시 */
+            margin-bottom: 8px; /* 아래쪽 여백 */
+            font-weight: 500; /* 중간 굵기 */
+            color: rgb(18, 17, 17); /* 진한 회색 글씨 */
+            font-size: 1rem; /* 글씨 크기 */
+        }
+
+        /* 텍스트 입력창 스타일 (초등학생용 주석) */
+        .qna-section .qna-form textarea {
+            width: 100%; /* 전체 너비 */
+            padding: 15px; /* 안쪽 여백 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+            border: none; /* 테두리 없애기 */
+            border-radius: 10px; /* 모서리 둥글게 */
+            font-size: 1rem; /* 글씨 크기 */
+            font-family: 'Noto Sans KR', sans-serif; /* 넥슨폰트 사용 */
+            resize: vertical; /* 세로로만 크기 조절 가능 */
+            min-height: 120px; /* 최소 높이 */
+            transition: all 0.3s ease; /* 부드러운 변화 */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 그림자 */
+        }
+
+        /* 텍스트 입력창에 마우스 올렸을 때 (초등학생용 주석) */
+        .qna-section .qna-form textarea:focus {
+            outline: none; /* 기본 테두리 없애기 */
+            transform: translateY(-2px); /* 살짝 위로 올리기 */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* 그림자 진하게 */
+        }
+
+        /* 관리자 답변 입력창 (초등학생용 주석: 관리자가 개인적으로 답변하는 곳) */
+        .qna-section .admin-response {
+            margin-top: 15px; /* 위쪽 여백 */
+        }
+
+        .qna-section .admin-response textarea {
+            background-color: #f8f9fa; /* 연한 회색 배경 */
+            border: 2px dashed #dee2e6; /* 점선 테두리 */
+            color: #6c757d; /* 회색 글씨 */
+        }
+
+        /* 버튼 스타일 (초등학생용 주석) */
+        .qna-section .qna-form button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24); /* 빨간색 그라데이션 */
+            color: white; /* 흰색 글씨 */
+            border: none; /* 테두리 없애기 */
+            padding: 15px 30px; /* 안쪽 여백 */
+            border-radius: 25px; /* 둥근 모서리 */
+            font-size: 1.1rem; /* 글씨 크기 */
+            font-weight: 600; /* 굵은 글씨 */
+            cursor: pointer; /* 마우스 포인터 모양 */
+            transition: all 0.3s ease; /* 부드러운 변화 */
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); /* 그림자 */
+            display: block; /* 블록으로 표시 */
+            margin: 0 auto; /* 가운데 정렬 */
+        }
+
+        /* 버튼에 마우스 올렸을 때 (초등학생용 주석) */
+        .qna-section .qna-form button:hover {
+            transform: translateY(-3px); /* 위로 올리기 */
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4); /* 그림자 진하게 */
+        }
+
+        /* 질문 목록 영역 (초등학생용 주석) */
+        .qna-section .qna-list {
+            margin-bottom: 40px; /* 아래쪽 여백 */
+        }
+
+        /* 개별 질문 카드 (초등학생용 주석) */
+        .qna-section .qna-item {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); /* 파란색 그라데이션 */
+            border-radius: 15px; /* 모서리 둥글게 */
+            padding: 25px; /* 안쪽 여백 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+            box-shadow: 0 5px 15px rgba(116, 185, 255, 0.3); /* 그림자 */
+            transition: all 0.3s ease; /* 부드러운 변화 */
+            position: relative; /* 장식을 위한 위치 설정 */
+        }
+
+        /* 질문 카드에 마우스 올렸을 때 (초등학생용 주석) */
+        .qna-section .qna-item:hover {
+            transform: translateY(-5px); /* 위로 올리기 */
+            box-shadow: 0 8px 25px rgba(116, 185, 255, 0.4); /* 그림자 진하게 */
+        }
+
+        /* 질문 텍스트 스타일 (초등학생용 주석) */
+        .qna-section .qna-item .question {
+            font-weight: 600; /* 굵은 글씨 */
+            color: white; /* 흰색 글씨 */
+            font-size: 1.1rem; /* 글씨 크기 */
+            margin-bottom: 10px; /* 아래쪽 여백 */
+        }
+
+        /* 답변 텍스트 스타일 (초등학생용 주석) */
+        .qna-section .qna-item .answer {
+            color: #dff9fb; /* 연한 파란색 글씨 */
+            font-size: 1rem; /* 글씨 크기 */
+            line-height: 1.6; /* 줄 간격 */
+            margin-top: 10px; /* 위쪽 여백 */
+        }
+
+        /* 등록일 표시 스타일 (초등학생용 주석) */
+        .qna-section .timestamp {
+            font-size: 0.9rem; /* 작은 글씨 */
+            color: rgba(255,255,255,0.8); /* 반투명 흰색 */
+            margin-top: 15px; /* 위쪽 여백 */
+            text-align: right; /* 오른쪽 정렬 */
+        }
+
+        /* FAQ 섹션 (초등학생용 주석) */
+        .qna-section .faq {
+            margin-top: 50px; /* 위쪽 여백 */
+            padding-top: 40px; /* 위쪽 안쪽 여백 */
+            border-top: 3px solid #e9ecef; /* 위쪽 테두리 */
+        }
+
+        /* FAQ 제목 (초등학생용 주석) */
+        .qna-section .faq h2 {
+            font-size: 2rem; /* 큰 글씨 */
+            font-weight: 700; /* 굵은 글씨 */
+            color: #2c3e50; /* 진한 파란색 */
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 아래쪽 여백 */
+        }
+
+        /* FAQ 개별 항목 (초등학생용 주석) */
+        .qna-section .faq-item {
+            background: white; /* 흰색 배경 */
+            border-radius: 12px; /* 모서리 둥글게 */
+            padding: 20px; /* 안쪽 여백 */
+            margin-bottom: 15px; /* 아래쪽 여백 */
+            border-left: 5px solid #3498db; /* 왼쪽 파란색 테두리 */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* 연한 그림자 */
+            transition: all 0.3s ease; /* 부드러운 변화 */
+        }
+
+        /* FAQ 항목에 마우스 올렸을 때 (초등학생용 주석) */
+        .qna-section .faq-item:hover {
+            transform: translateX(10px); /* 오른쪽으로 이동 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 그림자 진하게 */
+        }
+
+        /* FAQ 질문 스타일 (초등학생용 주석) */
+        .qna-section .faq-q {
+            font-weight: 600; /* 굵은 글씨 */
+            color: #2c3e50; /* 진한 파란색 */
+            font-size: 1.1rem; /* 글씨 크기 */
+            margin-bottom: 8px; /* 아래쪽 여백 */
+        }
+
+        /* FAQ 답변 스타일 (초등학생용 주석) */
+        .qna-section .faq-a {
+            color: #7f8c8d; /* 회색 */
+            font-size: 1rem; /* 글씨 크기 */
+            line-height: 1.6; /* 줄 간격 */
+        }
+
+        /* 빈 상태 메시지 (초등학생용 주석) */
+        .qna-section .empty-message {
+            text-align: center; /* 가운데 정렬 */
+            color: #95a5a6; /* 연한 회색 */
+            font-style: italic; /* 기울임체 */
+            padding: 40px; /* 안쪽 여백 */
+            background: #f8f9fa; /* 연한 회색 배경 */
+            border-radius: 10px; /* 모서리 둥글게 */
+            margin: 20px 0; /* 위아래 여백 */
+        }
+
+        /* 태블릿 화면용 스타일 (초등학생용 주석: 태블릿에서 보기 좋게) */
+        @media (max-width: 768px) {
+            .qna-section .qna-container {
+                margin: 20px; /* 여백 줄이기 */
+                padding: 30px; /* 안쪽 여백 줄이기 */
+            }
+            
+            .qna-section .qna-title {
+                font-size: 2rem; /* 글씨 크기 줄이기 */
+            }
+            
+            .qna-section .qna-form {
+                padding: 20px; /* 안쪽 여백 줄이기 */
+            }
+        }
+
+        /* 모바일 화면용 스타일 (초등학생용 주석: 핸드폰에서 보기 좋게) */
+        @media (max-width: 480px) {
+            .qna-section .qna-container {
+                margin: 10px; /* 여백 더 줄이기 */
+                padding: 20px; /* 안쪽 여백 더 줄이기 */
+            }
+            
+            .qna-section .qna-title {
+                font-size: 1.8rem; /* 글씨 크기 더 줄이기 */
+            }
+            
+            .qna-section .qna-form {
+                padding: 15px; /* 안쪽 여백 더 줄이기 */
+            }
+            
+            .qna-section .qna-form button {
+                padding: 12px 25px; /* 버튼 크기 줄이기 */
+                font-size: 1rem; /* 글씨 크기 줄이기 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 섹션 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <img src="images/logo1.png" alt="중간계AI 스튜디오 로고" class="logo">
+                <div class="brand-name">중간계AI 스튜디오</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#products" class="nav-item">제품</a>
+                <a href="#brand" class="nav-item">브랜드</a>
+                <a href="#reviews" class="nav-item">고객후기</a>
+                <a href="#philosophy" class="nav-item">기업철학</a>
+                <a href="#greeting" class="nav-item">인사말</a>
+                <a href="#qna" class="nav-item">Q&A</a>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="#login" class="login-btn">로그인</a>
+                
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="#products" class="mobile-nav-item" onclick="closeMobileMenu()">제품</a>
+            <a href="#brand" class="mobile-nav-item" onclick="closeMobileMenu()">브랜드</a>
+            <a href="#reviews" class="mobile-nav-item" onclick="closeMobileMenu()">고객후기</a>
+            <a href="#philosophy" class="mobile-nav-item" onclick="closeMobileMenu()">기업철학</a>
+            <a href="#greeting" class="mobile-nav-item" onclick="closeMobileMenu()">인사말</a>
+            <a href="#qna" class="mobile-nav-item" onclick="closeMobileMenu()">Q&A</a>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <div class="hero-content">
+                    <h1 class="hero-brand">중간계 AI 스튜디오</h1>
+                    <h2 class="hero-slogan">당신의 아이디어, 브랜드가 되다</h2>
+                    <p class="hero-desc">브랜드 이름에서부터 웹사이트까지, 사업성공을 함께 합니다</p>
+                    <a href="#reservation" class="hero-button">예약하기</a>
+                </div>
+            </div>
+
+            <div class="hero-slide">
+                <div class="hero-content">
+                    <h1 class="hero-brand">중간계 AI 스튜디오</h1>
+                    <h2 class="hero-slogan">쉽고 빠르게, 원하는 것을 구축하다</h2>
+                    <p class="hero-desc">아이디어에서 실현까지 중간계 AI가 함께합니다</p>
+                    <a href="#reservation" class="hero-button">예약하기</a>
+                </div>
+            </div>
+
+            <div class="hero-slide">
+                <div class="hero-content">
+                    <h1 class="hero-brand">중간계 AI 스튜디오</h1>
+                    <h2 class="hero-slogan">상상력에 날개를, 날아 오르다</h2>
+                    <p class="hero-desc">꿈이 아니라, 현실이 될 것입니다</p>
+                    <a href="#reservation" class="hero-button">예약하기</a>
+                </div>
+            </div>
+        </div>
+
+        <button class="hero-arrow left" onclick="previousSlide()">&#8249;</button>
+        <button class="hero-arrow right" onclick="nextSlide()">&#8250;</button>
+
+        <div class="hero-indicators">
+            <div class="hero-indicator active" onclick="goToSlide(0)"></div>
+            <div class="hero-indicator" onclick="goToSlide(1)"></div>
+            <div class="hero-indicator" onclick="goToSlide(2)"></div>
+        </div>
+    </section>
+
+    <!-- 제품 섹션 -->
+    <section id="products" class="product-container">
+        <img src="images/shop1.jpg" alt="중간계 AI 스튜디오 매장" class="shop-image">
+        
+        <h1 class="product-title">중간계 AI 스튜디오 4가지 상품</h1>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="images/pd1.jpg" alt="AI 상세페이지" class="product-image">
+                <div class="product-content">
+                    <h2>AI 상세페이지</h2>
+                    <p>AI,인공지능 추천에 최적화된 상세페이지<br><br>
+                    고객의 구매 패턴을 분석하여 개인 맞춤형 상품을 추천합니다.<br>
+                    전환율을 최대 300% 향상시키는 스마트 레이아웃을 제공합니다.<br>
+                    실시간 데이터 분석으로 최적의 상품 배치를 자동으로 조정합니다.<br>
+                    모바일과 데스크톱 모든 환경에서 완벽한 사용자 경험을 보장합니다.</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img src="images/pd2.jpg" alt="AI 최적화 쇼츠릴스" class="product-image">
+                <div class="product-content">
+                    <h2>AI 최적화 쇼츠릴스</h2>
+                    <p>AI,인공지능 추천에 최적화된 쇼츠, 릴스<br><br>
+                    바이럴 알고리즘을 분석하여 최적의 콘텐츠 타이밍을 제안합니다.<br>
+                    트렌드 키워드와 해시태그를 자동으로 추천하여 노출도를 극대화합니다.<br>
+                    시청자 반응 패턴을 학습하여 참여도 높은 영상을 제작합니다.<br>
+                    인스타그램, 틱톡, 유튜브 쇼츠 모든 플랫폼에 최적화된 포맷을 지원합니다.</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img src="images/pd3.jpg" alt="AI 반응형 홈페이지" class="product-image">
+                <div class="product-content">
+                    <h2>AI 반응형 홈페이지</h2>
+                    <p>AI, 추천에 최적화된 홈페이지<br><br>
+                    사용자 행동 패턴을 실시간으로 분석하여 개인화된 콘텐츠를 제공합니다.<br>
+                    SEO 최적화와 로딩 속도 개선으로 검색 엔진 상위 노출을 보장합니다.<br>
+                    모든 디바이스에서 완벽한 반응형 디자인으로 사용자 경험을 극대화합니다.<br>
+                    A/B 테스트 자동화로 지속적인 성능 개선과 전환율 향상을 실현합니다.</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img src="images/pd4.jpg" alt="AI 챗봇" class="product-image">
+                <div class="product-content">
+                    <h2>AI 챗봇</h2>
+                    <p>현존 최고수준의 브랜드 AI 챗봇<br><br>
+                    24시간 무중단 고객 상담으로 언제든지 완벽한 서비스를 제공합니다.<br>
+                    자연어 처리 기술로 사람과 구분되지 않는 자연스러운 대화가 가능합니다.<br>
+                    고객 문의 유형을 학습하여 정확도 99% 이상의 답변을 제공합니다.<br>
+                    다국어 지원과 감정 분석으로 글로벌 고객까지 만족시키는 스마트 상담을 실현합니다.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="purchase-section">
+            <a href="https://smartstore.naver.com/" target="_blank" class="purchase-btn">구매하기</a>
+        </div>
+    </section>
+
+    <!-- 고객후기 섹션 -->
+    <section id="reviews" class="review-container">
+        <h1 class="review-title">고객 후기</h1>
+        <p class="review-subtitle">중간계 AI 스튜디오와 함께한 자영업, 소상공인 사장님들의 생생한 후기입니다</p>
+        
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    AI 상세페이지 덕분에 온라인 주문이 3배나 늘었어요!<br>
+                    고객들이 메뉴를 더 쉽게 찾고 주문하게 되었습니다.<br>
+                    매출이 눈에 띄게 증가해서 정말 만족스럽습니다.<br>
+                    중간계 AI 스튜디오 정말 추천합니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">김민수 사장님</div>
+                    <div class="reviewer-business">카페 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    쇼츠 영상 제작 후 젊은 고객들이 많이 늘었어요.<br>
+                    인스타그램과 틱톡에서 우리 가게가 유명해졌습니다.<br>
+                    바이럴 마케팅 효과가 정말 대단해요.<br>
+                    이제 배달 주문이 끊이지 않습니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">박영희 사장님</div>
+                    <div class="reviewer-business">치킨집 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    반응형 홈페이지로 모바일 고객들이 급증했어요.<br>
+                    꽃 주문이 온라인으로 편리하게 들어옵니다.<br>
+                    특히 기념일 시즌에 주문량이 폭증했습니다.<br>
+                    디자인도 예쁘고 사용하기도 쉬워요!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">이수진 사장님</div>
+                    <div class="reviewer-business">꽃집 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    AI 챗봇으로 24시간 예약 접수가 가능해졌어요.<br>
+                    새벽에도 고객들이 예약을 잡을 수 있어서 좋습니다.<br>
+                    직원들이 전화 받는 시간이 줄어들어 효율적이에요.<br>
+                    고객 만족도도 크게 향상되었습니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">최동훈 사장님</div>
+                    <div class="reviewer-business">미용실 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    상세페이지 개선 후 배달 주문이 2배로 늘었어요.<br>
+                    메뉴 사진이 더 맛있어 보이게 나와서 좋습니다.<br>
+                    고객들이 주문하기 전에 망설이는 시간이 줄었어요.<br>
+                    매출 증가에 정말 큰 도움이 되었습니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">정미경 사장님</div>
+                    <div class="reviewer-business">분식집 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    쇼츠 영상으로 우리 옷가게가 핫플레이스가 되었어요.<br>
+                    젊은 고객들이 영상 보고 직접 찾아옵니다.<br>
+                    온라인 쇼핑몰 매출도 크게 증가했습니다.<br>
+                    SNS 마케팅의 힘을 실감하고 있어요!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">한지영 사장님</div>
+                    <div class="reviewer-business">의류매장 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    반응형 홈페이지로 예약률이 급상승했어요.<br>
+                    모바일에서도 예약이 쉬워져서 고객들이 좋아합니다.<br>
+                    사진들이 더 예쁘게 보여서 문의가 많이 늘었어요.<br>
+                    성수기 예약이 금방 마감될 정도입니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">송태호 사장님</div>
+                    <div class="reviewer-business">펜션 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    AI 챗봇이 케이크 주문을 자동으로 받아줘서 편해요.<br>
+                    고객들이 언제든지 문의하고 주문할 수 있어 좋습니다.<br>
+                    특별한 날 케이크 주문이 크게 늘었어요.<br>
+                    업무 효율성이 정말 많이 개선되었습니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">윤서연 사장님</div>
+                    <div class="reviewer-business">베이커리 운영</div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">
+                    종합적인 AI 솔루션으로 매장 운영이 혁신되었어요.<br>
+                    온라인 주문부터 고객 상담까지 모든 게 자동화되었습니다.<br>
+                    매출은 늘고 운영비는 줄어서 수익성이 크게 개선되었어요.<br>
+                    중간계 AI 스튜디오와 함께해서 정말 다행입니다!
+                </p>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">강현우 사장님</div>
+                    <div class="reviewer-business">마트 운영</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 브랜드 소개 섹션 -->
+    <section id="brand" class="brand-container">
+        <h1 class="midstudio-title">중간계 AI 스튜디오</h1>
+        <h2 class="midstudio-subtitle">사업 실행의 파트너, 원하는 것을 구현합니다</h2>
+        
+        <div class="content-section">
+            <img src="images/pd2.jpg" alt="AI 최적화 쇼츠릴스" class="brand-image">
+            
+            <div class="text-content">
+                <div class="desc-preview">
+                    <p class="midstudio-desc">
+                        좋은 아이디어가 있다고 해서, 그 자체로 좋은 사업이 되는 것은 아닙니다. 반짝이는 아이디어도 실행으로 이어지지 않으면 사라지고 맙니다. 중간계 AI 스튜디오는 그 간극을 메우는 전략 파트너입니다.<br><br>
+                        우리는 소상공인과 자영업자, 크리에이터와 창업가의 고민을 누구보다 잘 이해합니다. "무엇을 어떻게 보여줘야 할까?" "어떻게 하면 고객에게 잘 도달할 수 있을까?" 이런 고민에 대해 감각과 전략을 결합해 실질적인 해답을 제시합니다.<br><br>
+                        브랜드 상세페이지, 쇼츠·릴스 영상, 홈페이지, 챗봇 등 AI에 최적화된 콘텐츠를 기획·제작하여 당신의 브랜드가 더 많이 검색되고, 더 쉽게 기억되고, 더 효과적으로 매출로 연결될 수 있도록 돕습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 히스토리 섹션 -->
+    <section id="philosophy" class="history-container">
+        <h1 class="history-title">중간계, 브랜드 히스토리</h1>
+        <h2 class="history-subtitle">사업전략을 넘어, 이제는 인공지능 최적화로</h2>
+        
+        <div class="history-content">
+            <div class="history-image">
+                <img src="images/pd2.jpg" alt="중간계 AI 스튜디오 제품 이미지">
+            </div>
+            
+            <div class="history-text">
+                <p class="history-desc">
+                    중간계는 지난 20여 년간, 5,000여 명 이상의 소상공인과 자영업 사장님들을 만나왔습니다. 현장의 치열함을 이해하고, 그 안에서 살아남고 성장할 수 있도록 비즈니스 전략, 마케팅 전략, 브랜드 전략은 물론 '가두리 패키지', '설득론', '가격론', '이벤트 전략', '리더십론' 등 실질적이고 실행 중심의 콘텐츠를 제공해 왔습니다. 그 결과, 높은 고객 만족도, 뛰어난 성과 창출, 높은 재구매율과 추천율이라는 신뢰를 쌓아왔습니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CEO 인사말 섹션 -->
+    <section id="greeting" class="ceo-container">
+        <h1 class="ceo-title">CEO, 인사말</h1>
+        <h2 class="ceo-subtitle">"소상공인과 자영업 사장님들의 성공, 그것이 저의 사명입니다."</h2>
+        
+        <div class="ceo-content">
+            <div class="ceo-image">
+                <img src="images/man2.jpg" alt="중간계 AI 스튜디오 대표 신병철">
+            </div>
+            
+            <div class="ceo-text">
+                <p class="ceo-desc">
+                    안녕하십니까? 저는 지난 35년간 비즈니스와 마케팅 한길을 걸으며, CJ, 배달의민족, 러쉬, 여기어때, 야나두, 일동제약, 커피에 반하다, 단꿈아이 등 수많은 기업과 브랜드에서 경영 자문과 마케팅 전략을 맡아 왔습니다. 특히, 스타트업과 소상공인 사장님들의 빠르고 정확한 의사결정, 현장에 맞는 전략 실행을 지원하며, 현장에서 길어 올린 실전 경험을 쌓아왔습니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Q&A 섹션 -->
+    <section id="qna" class="qna-section">
+        <div class="qna-container">
+            <!-- 메인 제목 (초등학생용 주석) -->
+            <h1 class="qna-title">Q&A</h1>
+            <p class="qna-subtitle">궁금한 점이 있으시면 언제든지 문의해 주세요</p>
+            
+            <!-- 질문 입력 폼 (초등학생용 주석: 질문을 적는 곳) -->
+            <div class="qna-form">
+                <h3 class="form-title">💬 질문하기</h3>
+                <form id="qnaForm">
+                    <label for="question">질문을 입력하세요:</label>
+                    <textarea id="question" name="question" rows="4" required placeholder="중간계 AI 스튜디오에 대해 궁금한 점을 자유롭게 남겨주세요..."></textarea>
+                    
+                    <!-- 관리자 답변 입력란 (초등학생용 주석: 관리자가 개인적으로 답변하는 곳) -->
+                    <div class="admin-response">
+                        <label for="adminAnswer">관리자 개인 답변 (선택사항):</label>
+                        <textarea id="adminAnswer" name="adminAnswer" rows="3" placeholder="관리자가 개인적으로 답변을 미리 작성할 수 있습니다..."></textarea>
+                    </div>
+                    
+                    <button type="submit">질문 등록하기</button>
+                </form>
+            </div>
+            
+            <!-- 등록된 질문 목록 (초등학생용 주석: 질문들이 보이는 곳) -->
+            <div class="qna-list" id="qnaList">
+                <!-- 질문/답변이 여기에 표시됩니다 (초등학생용 주석) -->
+            </div>
+            
+            <!-- FAQ 섹션 (초등학생용 주석: 자주 묻는 질문들) -->
+            <div class="faq">
+                <h2>🔍 자주 묻는 질문 (FAQ)</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q1. 중간계 AI 스튜디오는 어떤 서비스를 제공하나요?</div>
+                    <div class="faq-a">A1. 인공지능 기반의 데이터 분석, 챗봇 개발, 이미지/음성 인식, AI 상세페이지, 쇼츠/릴스 제작 등 다양한 AI 솔루션을 제공합니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q2. 상담은 어떻게 신청하나요?</div>
+                    <div class="faq-a">A2. 홈페이지의 상담 신청 폼을 통해 문의하시거나, 전화(02-123-1234) 또는 이메일(abc@gmail.com)로 연락주시면 됩니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q3. AI 프로젝트 개발 기간은 얼마나 걸리나요?</div>
+                    <div class="faq-a">A3. 프로젝트 규모와 복잡도에 따라 다르지만, 일반적으로 2주~3개월 정도 소요됩니다. 정확한 일정은 상담 후 안내해드립니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q4. 견적은 어떻게 받을 수 있나요?</div>
+                    <div class="faq-a">A4. 프로젝트 요구사항을 상세히 알려주시면, 담당자가 24시간 내에 맞춤형 견적을 제공해드립니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q5. AI 교육 프로그램도 제공하나요?</div>
+                    <div class="faq-a">A5. 네, 기업 임직원 및 개인을 위한 맞춤형 AI 교육 프로그램을 운영하고 있습니다. 기초부터 실무까지 단계별로 진행됩니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q6. 데이터 보안은 어떻게 관리되나요?</div>
+                    <div class="faq-a">A6. 고객 데이터는 최고 수준의 암호화 기술과 접근제어 시스템으로 보호되며, 국제 보안 표준을 준수합니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q7. AI 솔루션 도입 후 유지보수는 어떻게 되나요?</div>
+                    <div class="faq-a">A7. 도입 후 6개월간 무료 기술지원을 제공하며, 이후에도 지속적인 유지보수 서비스를 합리적인 비용으로 제공합니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q8. 맞춤형 AI 개발이 가능한가요?</div>
+                    <div class="faq-a">A8. 물론입니다. 고객의 특별한 요구사항에 맞춘 완전 맞춤형 AI 솔루션 개발이 가능하며, 이는 저희의 핵심 강점입니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q9. 포트폴리오나 샘플 프로젝트를 볼 수 있나요?</div>
+                    <div class="faq-a">A9. 홈페이지의 포트폴리오 섹션에서 다양한 성공 사례를 확인하실 수 있으며, 상담 시 더 자세한 레퍼런스를 제공해드립니다.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q">Q10. 서비스 이용 요금은 어떻게 되나요?</div>
+                    <div class="faq-a">A10. 서비스 종류와 프로젝트 규모에 따라 요금이 달라집니다. 무료 상담을 통해 정확한 견적을 받아보시기 바랍니다.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 섹션 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="company-info">
+                <div class="company-name">중간계 AI 스튜디오</div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>02-123-1234</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>abc@gmail.com</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>서울특별시 강남구 테헤란로 123</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <div class="social-title">Follow Us</div>
+                
+                <a href="https://www.instagram.com" target="_blank" class="social-btn instagram" title="인스타그램">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                
+                <a href="https://www.facebook.com" target="_blank" class="social-btn facebook" title="페이스북">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                
+                <a href="https://www.youtube.com" target="_blank" class="social-btn youtube" title="유튜브">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                
+                <a href="https://blog.naver.com" target="_blank" class="social-btn blog" title="네이버 블로그">
+                    <i class="fas fa-blog"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2024 중간계 AI 스튜디오. All rights reserved.</p>
+            <p style="margin-top: 5px; font-size: 0.8rem;">소상공인과 자영업 사장님들의 성공을 위한 AI 솔루션</p>
+        </div>
+    </footer>
+
+    <!-- 외부 JavaScript 파일 연결 -->
+    <script src="script.js"></script>
+</body>
+</html> 
